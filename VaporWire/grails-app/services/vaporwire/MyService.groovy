@@ -2,26 +2,30 @@ package vaporwire
 
 import javax.servlet.ServletException
 import javax.servlet.ServletConfig
+import com.fitbit.api.model.APIResourceCredentials
+import vapourwire.FitBitAPI
+import com.fitbit.api.client.LocalUserDetail
+import com.fitbit.api.FitbitAPIException
 
 class MyService {
-    String apiBaseUrl;
-    String fitbitSiteBaseUrl;
-    String exampleBaseUrl;
-    String clientConsumerKey;
-    String clientSecret;
-    def grailsApplication;
 
-    public void init() throws ServletException {
-        try {
-            clientConsumerKey = grailsApplication.config.Consumer_key;
-            clientSecret = grailsApplication.config.Consumer_secret;
-            fitbitSiteBaseUrl = grailsApplication.config.fitbitSiteBaseUrl;
-            apiBaseUrl = grailsApplication.config.apiBaseUrl;
-            exampleBaseUrl = grailsApplication.config.exampleBaseUrl;
-        } catch (IOException e) {
-            throw new ServletException("Exception during loading properties", e);
+    APIResourceCredentials getCredentials(Map params) {
+        String tempTokenReceived = params.oauth_token;
+        String tempTokenVerifier = params.oauth_verifier;
+        APIResourceCredentials resourceCredentials = FitBitAPI.getBean().getResourceCredentialsByTempToken(tempTokenReceived);
+        if (resourceCredentials == null) {
+            throw new ServletException("Unrecognized temporary token when attempting to complete authorization: " + tempTokenReceived);
         }
+        // Get token credentials only if necessary:
+        if (!resourceCredentials.isAuthorized()) {
+            // The verifier is required in the request to get token credentials:
+            resourceCredentials.setTempTokenVerifier(tempTokenVerifier);
+            try {
+                FitBitAPI.getBean().getTokenCredentials(new LocalUserDetail(resourceCredentials.getLocalUserId()));
+            } catch (FitbitAPIException e) {
+                throw new ServletException("Unable to finish authorization with Fitbit.", e);
+            }
+        }
+        return resourceCredentials
     }
-
-
 }

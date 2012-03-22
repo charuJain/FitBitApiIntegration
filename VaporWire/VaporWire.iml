@@ -19,9 +19,7 @@
     </facet>
     <facet type="hibernate" name="Hibernate">
       <configuration>
-        <datasource-map>
-          <unit-entry name="Gorm" />
-        </datasource-map>
+        <datasource-map />
       </configuration>
     </facet>
   </component>
@@ -42,7 +40,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" exported="" name="grails-2.0.0" level="application" />
+    <orderEntry type="library" name="grails-2.0.0" level="application" />
     <orderEntry type="module-library" exported="">
       <library name="Grails User Library (VaporWire)">
         <CLASSES>
@@ -54,17 +52,7 @@
         <jarDirectory url="file://$MODULE_DIR$/lib" recursive="false" />
       </library>
     </orderEntry>
-    <orderEntry type="module" module-name="VaporWire-grailsPlugins" exported="" />
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES />
-        <JAVADOC />
-        <SOURCES>
-          <root url="jar://$MODULE_DIR$/lib/fitbit.jar!/home/intelligrape/Desktop/Fitbit-fitbit4j-ca18d6a/fitbit4j-example-client/src/main/java" />
-          <root url="jar://$MODULE_DIR$/lib/fitbit.jar!/home/intelligrape/Desktop/Fitbit-fitbit4j-ca18d6a/fitbit4j/src/main/java" />
-        </SOURCES>
-      </library>
-    </orderEntry>
+    <orderEntry type="module" module-name="VaporWire-grailsPlugins" />
   </component>
 </module>
 
